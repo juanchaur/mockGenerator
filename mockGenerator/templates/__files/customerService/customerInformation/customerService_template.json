@@ -1,0 +1,3 @@
+callback_customers({
+	data: "{{- file.name }}"
+});

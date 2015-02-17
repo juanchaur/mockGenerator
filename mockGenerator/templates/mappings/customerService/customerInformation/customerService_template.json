@@ -1,0 +1,14 @@
+{
+
+    "request": {
+        "method": "GET",
+        "urlPattern": "MY-URL-{{- file.name }}"
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/javascript"
+        },
+        "bodyFileName": "{{- utils.fixMappingsRoute(file.relative) }}"
+    }
+}
