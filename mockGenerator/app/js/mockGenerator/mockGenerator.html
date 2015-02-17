@@ -1,0 +1,49 @@
+<div class="starter-template container">
+	<div>
+		<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+	</div>
+
+	<h2>Generate a Mock</h2>
+	<p>Select a command or write it (<em>Click <a href="" ng-click="open('lg', true)">here</a> to see how to write a command:</em>)</p>
+
+	<div class="row mt-20">
+		<div class="col-md-12">
+			<select class="custom-select" ng-options="command.command as command.name for command in commandList" ng-model="commandSelected">
+				 <option value="">Nothing selected</option>
+			</select>
+
+		</div>
+	</div>
+
+	<div class="row mt-20">
+		<div class="col-md-6">
+			<strong>Command</strong>
+			<textarea class="form-control mt-10" rows="1" ng-disabled="!!commandSelected" ng-model="writtenCommand"></textarea>
+		</div>
+		<div class="col-md-6">
+			<strong>Name of the mock (and file)</strong>
+			<textarea class="form-control mt-10" rows="1" ng-model="mockName"></textarea>
+		</div>
+	</div>
+
+	<div class="row mt-20">
+		<div class="col-md-6">
+			<strong>ROI customer</strong> <input type="checkbox" ng-model="isROICustomer">
+
+		</div>
+		<div class="col-md-12 mt-20">
+			<strong>Final Command: </strong><span> {{ finalCommand }}</span>
+		</div>
+
+	</div>
+	<div class="row mt-20">
+		<div class="col-md-12 text-right">
+			<button type="button" class="btn btn-primary"
+				ng-click="runCommand()"
+				ng-disabled="!(!!finalCommand) || !(!!mockName)"
+				>
+				<span>run</span>
+			</button>
+		</div>
+	</div>
+</div>

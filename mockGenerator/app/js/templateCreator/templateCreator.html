@@ -1,0 +1,57 @@
+<div class="starter-template container">
+
+	<h2>Create templates</h2>
+	<p>Here you can create the __file & mapping templates</p>
+	<br />
+
+	<!-- https://github.com/angular-ui/ui-codemirror -->
+	<div class="row">
+		<div class="col-md-12">
+			<h3>Files</h3>
+
+			<!-- <ui-codemirror ui-codemirror-opts="editorOptions" ng-model="fileCodeEditorModel"></ui-codemirror> -->
+			<div class="mt-20" ui-codemirror="{ onLoad : codeMirrorLoadedForFileEditor }" ></div>
+
+
+			<div class="buttons mt-20 text-right">
+				<button id="btn_save_fileEditor" type="button" class="btn btn-primary" ng-click="saveFile(fileEditor)">Save</button>
+
+				<button id="btn_open_fileEditor" type="button" class="btn btn-info" ng-click="openFile(fileEditor)">Open</button>
+
+				<button id="btn_clear_fileEditor" type="button" class="btn btn-danger" ng-click="clearEditor(fileEditor)">Clear</button>
+			</div>
+		</div>
+
+		<div class="col-md-12 mt-20">
+			<h3>Mappings</h3>
+
+			<div class="mt-20" ui-codemirror="{ onLoad : codeMirrorLoadedForMappingEditor }" ></div>
+
+			<div class="buttons mt-20 text-right">
+				<button id="btn_save_fileEditor" type="button" class="btn btn-primary" ng-click="saveFile(mappingEditor)">Save</button>
+
+				<button id="btn_open_fileEditor" type="button" class="btn btn-info" ng-click="openFile(mappingEditor)">Open</button>
+
+				<button id="btn_clear_fileEditor" type="button" class="btn btn-danger"  ng-click="clearEditor(mappingEditor)">Clear</button>
+			</div>
+		</div>
+
+		<input style="display:none;" id="open_fileEditor" type="file" />
+		<input style="display:none;" id="save_fileEditor" type="file"  nwsaveas="fileName_template.json" />
+	</div>
+
+<!--   <p>
+    {{ description }}
+  </p>
+
+  <br/>
+
+  <p>OS Settings</p>
+
+  <table class="table">
+    <tr ng-repeat="setting in settings">
+      <td><strong>{{ setting.name }}</strong></td><td>{{ setting.value }}</td>
+    </tr>
+  </table> -->
+
+</div>

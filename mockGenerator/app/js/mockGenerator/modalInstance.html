@@ -1,0 +1,61 @@
+<div class="modal-header" ng-class="headerClass">
+	<h3 class="modal-title">{{ modalTitle }}</h3>
+</div>
+
+<div class="modal-body">
+
+	<div ng-if="modalType == 'info'">
+		<div class="">
+			<h4>Structure of a command</h4>
+			<p>Given the following sctructure in the mappings:</p>
+			<ol class="tree mt10">
+				<li>
+					<label for="folder1">myServiceName</label><input type="checkbox" checked disabled id="folder1" />
+					<ol>
+						<li class="file">service_template.json</li>
+						<li>
+							<label for="subfolder1">success</label> <input type="checkbox" id="subfolder1" />
+							<ol>
+								<li class="file">general_template.json</li>
+								<li>
+									<label for="subsubfolder1">with_warnings</label> <input type="checkbox" id="subsubfolder1" />
+									<ol>
+										<li class="file"><a href="">warningSuccess_template.json</a></li>
+
+									</ol>
+								</li>
+							</ol>
+						</li>
+					</ol>
+				</li>
+			</ol>
+			<p class="mt20">The command to create different mocks would be:</p>
+
+
+			<ul>
+				<li><strong>for service_template:</strong> <kbd>mockme:myServiceName#service:mockName</kbd></li>
+				<li><strong>for myServiceName > success > general</strong> <kbd>mockmme:myServiceName#success_general:mockName</kbd></li>
+				<li><strong>for myServiceName > success > warning > warningSuccess</strong> <kbd>mockmme:myServiceName#success_warningSuccess:mockName</kbd></li>
+			</ul>
+			<div class="alert alert-info">
+				<p>By default, the currency is set to GBP, if we want to specify the currency we can add to the command</p>
+				<kbd>commnad --currency=EUR</kbd>
+			</div>
+		</div>
+	</div>
+
+	<div ng-if="modalType != 'info'">
+		{{ consoleMsg }}
+
+		<div class="text-center mt10">
+			<strong>{{ textImage }}</strong>
+			<br />
+			<img class="gif-image" ng-src="{{ gifImage }}" />
+		</div>
+
+	</div>
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-class="btnClass" ng-click="ok()">OK</button>
+</div>

@@ -1,0 +1,177 @@
+body {
+	margin: 0;
+	padding: 0;
+	margin-top: 5px;
+}
+
+body {
+	padding-top: 50px;
+}
+
+.starter-template {
+	padding: 40px 15px;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+/* :::::::::::::::::::::: Buttons :::::::::::::::::::::: */
+.btn,
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus {
+	margin: 0;
+	outline: 0;
+	border-radius: 0 !important;
+}
+
+textarea.form-control {
+	box-shadow: none;
+	border-radius: 0 !important;
+}
+
+textarea.form-control:focus {
+	box-shadow: none;
+	border-color: #16a085;
+}
+
+.btn-error {
+	border-color: #d2322d !important;
+}
+
+.btn-primary {
+	background: #1abc9c;
+	border-color: #16a085;
+}
+
+.btn-primary[disabled] {
+	background: #91c4ba;
+	border-color: #16a085;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+	background: #16a085;
+}
+
+.btn-info {
+	background: #95a5a6;
+	border-color: #7f8c8d;
+}
+
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active {
+	background: #7f8c8d;
+	border-color: #7f8c8d;
+}
+
+
+
+/* :::::::::::::::::::::: Modal :::::::::::::::::::::: */
+.modal-title {
+	color: #ffffff;
+}
+
+.header-error {
+	background-color: #d2322d;
+}
+
+.header-success {
+	background-color: #2DD261;
+}
+
+.header-info {
+	background-color: #5749b2;
+}
+
+.modal-body {
+	font-style: italic;
+}
+
+.btn-primary.btn-error {
+	background-color: #d2322d;
+}
+
+.btn-primary.btn-success {
+	background-color: #2DD261;
+}
+
+.gif-image {
+	margin: 0 auto;
+	display: block;
+}
+
+/* :::::::::::::::::::::: tree :::::::::::::::::::::: */
+ol.tree
+{
+	padding: 0 0 0 30px;
+	width: 300px;
+}
+	li
+	{
+		position: relative;
+		margin-left: -15px;
+		list-style: none;
+	}
+	li.file
+	{
+		margin-left: -1px !important;
+	}
+		li.file a
+		{
+			background: url(document.png) 0 0 no-repeat;
+			color: #000;
+			padding-left: 21px;
+			text-decoration: none;
+			display: block;
+		}
+		li.file a[href *= '.pdf']	{ background: url(document.png) 0 0 no-repeat; }
+		li.file a[href *= '.html']	{ background: url(document.png) 0 0 no-repeat; }
+		li.file a[href $= '.css']	{ background: url(document.png) 0 0 no-repeat; }
+		li.file a[href $= '.js']		{ background: url(document.png) 0 0 no-repeat; }
+	li input
+	{
+		position: absolute;
+		left: 0;
+		margin-left: 0;
+		opacity: 0;
+		z-index: 2;
+		cursor: pointer;
+		height: 1em;
+		width: 1em;
+		top: 0;
+	}
+		li input + ol {
+			background: url(toggle-small-expand.png) 40px 0 no-repeat;
+			margin: -23px 0 0 -44px; /* 15px */
+			height: 1em;
+		}
+		li input + ol > li { display: none; margin-left: -14px !important; padding-left: 1px; }
+	li label
+	{
+		background: url(folder-horizontal.png) 15px 1px no-repeat;
+		cursor: pointer;
+		display: block;
+		padding-left: 37px;
+	}
+
+	li input:checked + ol
+	{
+		background: url(toggle-small.png) 40px 5px no-repeat;
+		margin: -23px 0 0 -44px; /* 20px */
+		padding: 1.563em 0 0 80px;
+		height: auto;
+	}
+		li input:checked + ol > li { display: block; margin: 0 0 0.125em;  /* 2px */}
+		li input:checked + ol > li:last-child { margin: 0 0 0.063em; /* 1px */ }

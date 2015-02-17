@@ -1,0 +1,29 @@
+{
+  "name": "MockGenerator",
+  "version": "1.0.0",
+  "description": "Desktop app to generate mocks",
+  "main": "app/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Juan Chaur",
+  "license": "MIT",
+  "window": {
+    "title": "Desktop app to generate mocks",
+    "toolbar": false,
+    "frame": true,
+    "width": 1240,
+    "height": 960,
+    "position": "center"
+  },
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-folder-list": "^1.1.0",
+    "grunt-generate": "^0.3.2",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-node-webkit-builder": "~1.0.0"
+  },
+  "devDependencies": {
+    "grunt-contrib-copy": "~0.7.0"
+  }
+}
