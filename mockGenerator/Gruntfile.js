@@ -3,6 +3,8 @@
 
 module.exports = function(grunt) {
 
+	var qaResources = 'TO-BE-CHANGE';
+
 	//Variables needed for the generators
 	var	utils = utils || {};
 
@@ -10,16 +12,16 @@ module.exports = function(grunt) {
 	utils.mockCommands = {};
 
 	utils.paths = {
-		target: 'wireMock',
-		targetFolder: '../wireMock',
+		targetFolder: qaResources + 'wireMock', //'../wireMock',
+		templatesFolder: qaResources + 'templates',
 		files: '__files',
 		mappings: 'mappings'
 	};
 
+
 	utils.fixMappingsRoute = function (baseRoute) {
 		var toBeRepalce = utils.paths.targetFolder + '/'+ utils.paths.mappings + '/';
-		// var toBeRepalce = utils.paths.target + '/'+ utils.paths.mappings + '/';
-		return baseRoute.replace(toBeRepalce, ''); //'wiremock/mappings/' > ''
+		return baseRoute.replace(toBeRepalce, '');
 	};
 
 
@@ -56,7 +58,7 @@ module.exports = function(grunt) {
 				folders: false
 			},
 			files: {
-				src: ['templates/__files/**/*'],
+				src: [ utils.paths.templatesFolder + '/__files/**/*'],//['templates/__files/**/*'],
 				dest: '.tmp/folderlist.json'
 			}
 
@@ -68,31 +70,23 @@ module.exports = function(grunt) {
 			]
 		},
 
-		// copy: {
-		// 	main: {
-		// 		files: [
-		// 			{expand: true, src: ['templates/mappings/**/{proxy}*.json', 'templates/mappings/globals/**/*'], dest: 'wireMock/mappings', filter: 'isFile'}
-		// 		]
-		// 	}
+		// nodewebkit: {
+		// 	options: {
+		// 		platforms: ['linux64'], //['win32', 'win64', 'osx32', 'osx64', 'linux32', 'linux64'
+		// 		buildDir: 'out/', // Where the build version of my node-webkit app is saved
+		// 		cacheDir: 'out/',
+		// 		buildType: 'timestamped'
+		// 	},
+		// 	src: [''] // Your node-webkit app
 		// },
-		nodewebkit: {
-			options: {
-				platforms: ['linux64'], //['win32', 'win64', 'osx32', 'osx64', 'linux32', 'linux64'
-				buildDir: 'out/', // Where the build version of my node-webkit app is saved
-				cacheDir: 'out/',
-				buildType: 'timestamped'
-			},
-			src: ['/home/dev/workspaces/workspace-kepler/cbs-payments-web-parent/cbs-payments-web-qa-test/src/test/resources/mockGenerator/**/*'] // Your node-webkit app
-		},
 
 		/**
 		 * Generate task in order to create the mocks
 		 */
 		generate: {
 			options: {
-				src: 'templates',
+				src: utils.paths.templatesFolder, //'templates',
 				dest: utils.paths.targetFolder,
-				//dest: '../wireMock',
 				map: utils.generatorMapper,
 				prompt: false
 			}
@@ -108,8 +102,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-generate');
 	grunt.loadNpmTasks('grunt-folder-list');
 	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-node-webkit-builder');
-	// grunt.loadNpmTasks('grunt-contrib-copy');
+	// grunt.loadNpmTasks('grunt-node-webkit-builder');
 
 
 	grunt.registerTask('cleanFolderList', [
@@ -120,9 +113,7 @@ module.exports = function(grunt) {
 		'nodewebkit'
 	]);
 
-	// grunt.registerTask('myCopy', [
-	// 	'copy:main'
-	// ]);
+
 	/**
 	 * Parse the folders and gets the info needed for the generatos
 	 */
@@ -144,16 +135,15 @@ module.exports = function(grunt) {
 
 			if (folderJSON[i].filename.indexOf('template') !== -1) {
 
-
 				fileName = folderJSON[i].filename.replace('.json', '');
 				rootDir = (folderJSON[i].location.replace('.json', ''))
-							.replace('templates/' + utils.paths.files + '/', '')
+						.replace(utils.paths.templatesFolder + '/' + utils.paths.files + '/', '')
 				;
-				// rootDir = (folderJSON[i].location.replace('.json', '')).replace('templates/_files/', '');
+
 				dir = rootDir.replace('/' + fileName, '');
 
-				_files = utils.paths.files + '/' + dir; //'_files/' + dir;
-				mappings = utils.paths.mappings + '/' + dir;//'mappings/' + dir;
+				_files = utils.paths.files + '/' + dir;
+				mappings = utils.paths.mappings + '/' + dir;
 
 				//adding the mappers
 				commands = dir.split('/');
@@ -164,41 +154,33 @@ module.exports = function(grunt) {
 				if(commands.length === 1 ){
 					if ( utils.mockCommands.hasOwnProperty(commands[0]) ) {
 						utils.mockCommands[commands[0]][fileName.replace('_template', '')] = {
-							_files: generatorFiles + rootDir + ':',		//'generate:_files/' + rootDir + ':',
-							mappings: generatorMappings  + rootDir + ':'//'generate:mappings/' + rootDir + ':'
+							_files: generatorFiles + rootDir + ':',
+							mappings: generatorMappings  + rootDir + ':'
 						};
 					} else {
 						utils.mockCommands[commands[0]] = {};
 						utils.mockCommands[commands[0]][fileName.replace('_template', '')] = {
-							_files: generatorFiles + rootDir + ':',		//'generate:_files/' + rootDir + ':',
-							mappings: generatorMappings  + rootDir + ':'//'generate:mappings/' + rootDir + ':'
+							_files: generatorFiles + rootDir + ':',
+							mappings: generatorMappings  + rootDir + ':'
 						};
 					}
 				} else {
 					if ( utils.mockCommands.hasOwnProperty(commands[0]) ) {
 						utils.mockCommands[commands[0]][commands[1] + '_' +fileName.replace('_template', '')] = {
-							_files: generatorFiles + rootDir + ':',		//'generate:_files/' + rootDir + ':',
-							mappings: generatorMappings  + rootDir + ':'//'generate:mappings/' + rootDir + ':'
+							_files: generatorFiles + rootDir + ':',
+							mappings: generatorMappings  + rootDir + ':'
 						};
 					} else {
 						utils.mockCommands[commands[0]] = {};
 						utils.mockCommands[commands[0]][commands[1] + '_' +fileName.replace('_template', '')] = {
-							_files: generatorFiles + rootDir + ':',		//'generate:_files/' + rootDir + ':',
-							mappings: generatorMappings  + rootDir + ':'//'generate:mappings/' + rootDir + ':'
+							_files: generatorFiles + rootDir + ':',
+							mappings: generatorMappings  + rootDir + ':'
 						};
 					}
 				}
-
 			}
-
 		}
-
-		// grunt.log.writeln( '[OK] Parser done');
-		// console.log(folderJSON);
-		// console.log('------');
-		// console.log(utils.generatorMapper);
-		// console.log('------');
-		//console.log(utils.mockCommands);
+		// console.log(utils.mockCommands);
 	});
 
 	grunt.registerTask('setEnvironment', 'Parse the folders and sets the variables we need', function () {
@@ -213,11 +195,8 @@ module.exports = function(grunt) {
 			innerService
 		;
 
-		//console.log(utils.mockCommands);
-
 		if( !service || !fileName ) {
 			grunt.fail.fatal('you need to pass the service name and file name as arguments:\ne.g: mockme:serviceName:fileName', [3]);
-
 		}
 
 		if(service.indexOf('#') !== -1) {
@@ -228,11 +207,7 @@ module.exports = function(grunt) {
 				grunt.fail.fatal( 'Service or innver Service not defined in templates', [3] );
 			}
 		} else {
-			// serviceName = service;
-			// if ( !utils.mockCommands.hasOwnProperty(serviceName)) {
-				grunt.fail.fatal( 'Service not defined in templates', [3] );
-
-			// }
+			grunt.fail.fatal( 'Service not defined in templates', [3] );
 		}
 
 
@@ -258,7 +233,6 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('mockme', function (serviceName, fileName) {
 		utils.isLogEnable = grunt.option('logme') || false;
-		//info for mocks
 		utils.mockOptions.info.currency = !!grunt.option('currency') ? grunt.option('currency') : 'GBP';
 
 
@@ -266,12 +240,9 @@ module.exports = function(grunt) {
 		grunt.task.run('mockService:'+ serviceName + ':' + fileName);
 	});
 
-
-
 	//**********************************************************************************************
 	//									PREDIFINED TASKS
 	//**********************************************************************************************
-
 
 	// **************  CUSTOMER SERVICE  **************
 	grunt.registerTask('mockCustomerService', function (mockName) {

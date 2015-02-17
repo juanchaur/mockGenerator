@@ -1,4 +1,4 @@
-
+//TODO > Finish refactor of the tasks
 // **************  ACCOUNTS SERVICE  **************
 
 module.exports = function (grunt) {
