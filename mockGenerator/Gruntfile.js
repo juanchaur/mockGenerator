@@ -148,36 +148,28 @@ module.exports = function(grunt) {
 				//adding the mappers
 				commands = dir.split('/');
 
+				var command = commands.shift(),
+					templateName = (commands.length > 0 ? commands.join('_') + '_' : '') + fileName.replace('_template', '')
+				;
+
 				utils.generatorMapper[ _files ] = _files;
 				utils.generatorMapper[ mappings ] = mappings;
 
-				if(commands.length === 1 ){
-					if ( utils.mockCommands.hasOwnProperty(commands[0]) ) {
-						utils.mockCommands[commands[0]][fileName.replace('_template', '')] = {
-							_files: generatorFiles + rootDir + ':',
-							mappings: generatorMappings  + rootDir + ':'
-						};
-					} else {
-						utils.mockCommands[commands[0]] = {};
-						utils.mockCommands[commands[0]][fileName.replace('_template', '')] = {
-							_files: generatorFiles + rootDir + ':',
-							mappings: generatorMappings  + rootDir + ':'
-						};
+				if(!!command){
+					if ( !utils.mockCommands.hasOwnProperty(command) ) {
+						utils.mockCommands[command] = {};
 					}
+
+					utils.mockCommands[command][templateName] = {
+						_files: generatorFiles + rootDir + ':',
+						mappings: generatorMappings  + rootDir + ':'
+					};
 				} else {
-					if ( utils.mockCommands.hasOwnProperty(commands[0]) ) {
-						utils.mockCommands[commands[0]][commands[1] + '_' +fileName.replace('_template', '')] = {
-							_files: generatorFiles + rootDir + ':',
-							mappings: generatorMappings  + rootDir + ':'
-						};
-					} else {
-						utils.mockCommands[commands[0]] = {};
-						utils.mockCommands[commands[0]][commands[1] + '_' +fileName.replace('_template', '')] = {
-							_files: generatorFiles + rootDir + ':',
-							mappings: generatorMappings  + rootDir + ':'
-						};
-					}
+
+					throw new Error('Not command found in "' + dir + '"');
+
 				}
+
 			}
 		}
 		// console.log(utils.mockCommands);
@@ -275,6 +267,11 @@ module.exports = function(grunt) {
 		grunt.task.run('mockService:accountsService#accounts_accounts:' + mockName);
 	});
 
+	grunt.registerTask('mockUpdateAccountBillPreferences', function (mockName) {
+		grunt.task.run( 'setEnvironment' );
+		grunt.task.run('mockService:accountsService#updateAccountBillPreferences_update:' + mockName);
+	});
+
 
 	grunt.registerTask('accountsService_Prioritized', function (mockName, currency) {
 		grunt.task.run( 'setEnvironment' );
@@ -362,7 +359,7 @@ module.exports = function(grunt) {
 		var mockName = 'currentPaymentMethodPrioritized';
 
 		grunt.task.run( 'setEnvironment' );
-		grunt.task.run('mockService:paymentService#paymentMethods_paymentMethodPrioritized:' + mockName);
+		grunt.task.run('mockService:paymentService#paymentMethods_currentPaymentMethod_paymentMethodPrioritized:' + mockName);
 	});
 
 	// ****** previousPaymentMethods
@@ -370,7 +367,7 @@ module.exports = function(grunt) {
 		var mockName = 'previousPaymentMethodsPrioritized';
 
 		grunt.task.run( 'setEnvironment' );
-		grunt.task.run('mockService:paymentService#paymentMethods_previousPaymentMethodsPrioritized:' + mockName);
+		grunt.task.run('mockService:paymentService#paymentMethods_previousPaymentMethods_previousPaymentMethodsPrioritized:' + mockName);
 	});
 
 	// **************  REINSTATE **************
@@ -464,6 +461,24 @@ module.exports = function(grunt) {
 			'mockReinstate_inventory:' + mockName,
 			'mockReinstate_success_audis:' + mockName,
 			//'mockInventory:' + mockName
+		]);
+	});
+
+	grunt.registerTask('mockRestrictedScenarios', function (mockName) {
+		utils.isLogEnable = grunt.option('logme') || false;
+
+		grunt.task.run([
+			'setEnvironment:',
+			'mockCustomerService:' + mockName,
+			'mockBasicData:' + mockName,
+
+			'mockService:restricted#GET_ToBeSet_paymentInventory_initial_initial:' + mockName,
+			'mockService:restricted#GET_ToBeSet_paymentInventory_afterPost_afterPost:' + mockName,
+			'mockService:restricted#GET_ToBeSet_paymentRestricted_initial_initial:' + mockName,
+			'mockService:restricted#GET_ToBeSet_paymentRestricted_afterPost_afterPost:' + mockName,
+
+			'mockService:restricted#POST_post:' + mockName,
+
 		]);
 	});
 
